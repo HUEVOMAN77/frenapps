@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 import rikka.shizuku.Shizuku;
 import rikka.shizuku.ShizukuRemoteProcess;
@@ -23,6 +24,19 @@ import rikka.shizuku.ShizukuRemoteProcess;
  */
 public class ShellManager {
     private static final String TAG = "ShellManager";
+
+    // Mismo formato que valida Android para los nombres de paquete.
+    private static final Pattern SAFE_PACKAGE_NAME =
+            Pattern.compile("[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z0-9_]+)+");
+
+    /**
+     * Los comandos se arman por concatenacion y se meten en una shell. Un nombre de paquete
+     * con ";", backticks o espacios se ejecutaria como comando aparte, y los nombres pueden
+     * venir de entradas importadas o de la salida de "ps", o sea de datos no confiables.
+     */
+    public static boolean isSafePackageName(String packageName) {
+        return packageName != null && SAFE_PACKAGE_NAME.matcher(packageName).matches();
+    }
 
     private final Handler handler;
     private final ExecutorService executor;

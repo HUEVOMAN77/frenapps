@@ -25,10 +25,17 @@ public class BootReceiver extends BroadcastReceiver {
             boolean automationEnabled = prefs.getBoolean(KEY_AUTO_KILL_ENABLED, false);
 
             if (automationEnabled) {
-                Intent serviceIntent = new Intent(context, ShappkyService.class);
-                ContextCompat.startForegroundService(context, serviceIntent);
+                // El worker es lo que sostiene la automatizacion: esta permitido programarlo
+                // desde el arranque. Levantar el servicio en primer plano desde una conexion
+                // de BroadcastReceiver esta restringido desde Android 14 y revienta el arranque.
                 AutoKillWorker.schedule(context);
-                Log.d(TAG, "Boot restore complete: automation resumed");
+                try {
+                    Intent serviceIntent = new Intent(context, ShappkyService.class);
+                    ContextCompat.startForegroundService(context, serviceIntent);
+                    Log.d(TAG, "Boot restore complete: automation resumed");
+                } catch (Exception e) {
+                    Log.w(TAG, "Foreground service not allowed at boot, worker still scheduled", e);
+                }
             } else {
                 AutoKillWorker.cancel(context);
                 Log.d(TAG, "Boot restore skipped: automation disabled");

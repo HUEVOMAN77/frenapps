@@ -109,7 +109,9 @@ public class BackgroundAppManager {
             int killMode = getKillMode(); // 0 = Whitelist, 1 = Blacklist
 
             String dumpOutput = shellManager.runShellCommandAndGetFullOutput("dumpsys activity activities");
-            if (dumpOutput == null) {
+            // Con la salida vacia todo parecería de segundo plano y el ciclo mataria la app
+            // que estas usando, asi que un dumpsys en blanco se trata como fallo.
+            if (dumpOutput == null || dumpOutput.trim().isEmpty()) {
                 if (onComplete != null)
                     handler.post(onComplete);
                 return;
@@ -141,6 +143,7 @@ public class BackgroundAppManager {
             }
 
             List<String> toKill = runningPackages.stream()
+                    .filter(ShellManager::isSafePackageName)
                     .filter(pkg -> {
                         try {
                             // Common checks: foreground, hidden, protected
@@ -652,8 +655,13 @@ public class BackgroundAppManager {
             return desiredPackages;
         }
         for (String packageName : targetPackages) {
-            if (packageName != null && !packageName.isEmpty() && !packageName.equals(context.getPackageName())) {
+            // Aca entraban listas importadas de un backup, o sea texto arbitrario que despues
+            // se concatena en "cmd appops set ...". Se exige formato de nombre de paquete.
+            if (ShellManager.isSafePackageName(packageName)
+                    && !packageName.equals(context.getPackageName())) {
                 desiredPackages.add(packageName);
+            } else if (packageName != null && !packageName.isEmpty()) {
+                Log.w(TAG, "Rejected invalid package name for background restriction");
             }
         }
         return desiredPackages;
@@ -766,6 +774,7 @@ public class BackgroundAppManager {
         }
 
         String command = packageNames.stream()
+                .filter(ShellManager::isSafePackageName)
                 .map(pkg -> "am force-stop " + pkg)
                 .collect(Collectors.joining("; "));
         final long finalTotalKb = totalKb;
@@ -796,7 +805,8 @@ public class BackgroundAppManager {
             }
             return;
         }
-        if (packageName == null || packageName.isEmpty()) {
+        if (!ShellManager.isSafePackageName(packageName)) {
+            Log.w(TAG, "Refused shell command for invalid package name");
             if (onComplete != null) {
                 handler.post(onComplete);
             }
@@ -842,7 +852,8 @@ public class BackgroundAppManager {
             }
             return;
         }
-        if (packageName == null || packageName.isEmpty()) {
+        if (!ShellManager.isSafePackageName(packageName)) {
+            Log.w(TAG, "Refused shell command for invalid package name");
             if (onComplete != null) {
                 handler.post(onComplete);
             }

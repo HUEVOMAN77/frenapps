@@ -40,7 +40,7 @@ public class KillShortcutActivity extends Activity {
 
         executor.execute(() -> {
             String targetPackage = findKillablePackage();
-            if (targetPackage != null) {
+            if (ShellManager.isSafePackageName(targetPackage)) {
                 final String pkg = targetPackage;
                 shellManager.runShellCommand("am force-stop " + pkg,
                         () -> {

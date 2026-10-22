@@ -73,7 +73,9 @@
 
         <receiver android:name=".KillTriggerReceiver" android:exported="false" />
 
-        <receiver android:name=".BootReceiver" android:exported="false">
+        <!-- BOOT_COMPLETED lo manda el sistema, o sea entra desde afuera: con exported="false"
+             nunca se disparaba y la automatizacion no volvía despues de reiniciar. -->
+        <receiver android:name=".BootReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

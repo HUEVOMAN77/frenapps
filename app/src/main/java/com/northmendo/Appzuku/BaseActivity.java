@@ -21,6 +21,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Si todavia se puede tocar la UI. Los escaneos y las consultas de shell devuelven el
+     * resultado por handler y pueden llegar despues de cerrar la pantalla.
+     */
+    protected boolean isUiUsable() {
+        return !isFinishing() && !isDestroyed();
+    }
+
     protected void applyTheme() {
         int theme = sharedPreferences.getInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         AppCompatDelegate.setDefaultNightMode(theme);

@@ -380,6 +380,9 @@ public class MainActivity extends BaseActivity {
 
     // Load background apps with selection preservation
     private void loadBackgroundApps() {
+        if (binding == null) {
+            return;
+        }
         binding.swiperefreshlayout1.setRefreshing(true);
 
         // Save currently selected packages before reload
@@ -389,6 +392,11 @@ public class MainActivity extends BaseActivity {
                 .collect(Collectors.toSet());
 
         appManager.loadBackgroundApps(result -> {
+            // El escaneo tarda y puede volver cuando la actividad ya se destruyo (rotar la
+            // pantalla o salir); binding queda null y aca reventaba con un NPE.
+            if (binding == null || !isUiUsable()) {
+                return;
+            }
             fullAppsList.clear();
             fullAppsList.addAll(result);
 
@@ -443,6 +451,9 @@ public class MainActivity extends BaseActivity {
 
         // Kill apps and show FAB on completion
         appManager.killPackages(packagesToKill, () -> {
+            if (binding == null || !isUiUsable()) {
+                return;
+            }
             loadBackgroundApps();
             binding.fab.show();
         });

@@ -442,6 +442,9 @@ public class SettingsActivity extends BaseActivity {
                     formatRecoveredSize(totalRecoveredKb));
 
             handler.post(() -> {
+                if (!isUiUsable()) {
+                    return;
+                }
                 SettingsListContent content = createSettingsListContent("No activity in the last 12 hours.", false);
                 SettingsSurfaceAdapter adapter = new SettingsSurfaceAdapter();
                 adapter.setItems(rows);
@@ -560,7 +563,7 @@ public class SettingsActivity extends BaseActivity {
                     formatRecoveredSize(totalRecoveredKb));
 
             handler.post(() -> {
-                if (isFinishing() || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isDestroyed())) {
+                if (!isUiUsable()) {
                     return;
                 }
                 adapter.setItems(buildTopOffenderRows(offenders));

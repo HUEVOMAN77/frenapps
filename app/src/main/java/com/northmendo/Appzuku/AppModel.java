@@ -79,17 +79,17 @@ public class AppModel {
         return backgroundRestrictionActualKnown && backgroundRestrictionDesired && !backgroundRestrictionActual;
     }
 
-    public String getBackgroundRestrictionStatusText() {
+    public int getBackgroundRestrictionStatusLabelRes() {
         if (!backgroundRestrictionActualKnown) {
-            return backgroundRestrictionDesired ? "Saved in Appzuku" : "";
+            return backgroundRestrictionDesired ? R.string.restr_state_saved : 0;
         }
         if (isBackgroundRestrictionExternal()) {
-            return "Restricted outside Appzuku";
+            return R.string.restr_state_external;
         }
         if (needsBackgroundRestrictionReapply()) {
-            return "Saved in Appzuku, not active";
+            return R.string.restr_state_saved_inactive;
         }
-        return "";
+        return 0;
     }
 
     // Get and set app name

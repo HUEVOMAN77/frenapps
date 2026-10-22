@@ -220,15 +220,15 @@ public class BackgroundAppManager {
 
     private void sendKillNotification(int count) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID_ACTIONS, "Appzuku Actions",
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID_ACTIONS, context.getString(R.string.notif_channel_actions),
                     NotificationManager.IMPORTANCE_LOW);
             context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID_ACTIONS)
                 .setSmallIcon(R.drawable.ic_shappky)
-                .setContentTitle("Auto-Kill Executed")
-                .setContentText("Stopped " + count + " background apps")
+                .setContentTitle(context.getString(R.string.notif_autokill_title))
+                .setContentText(context.getString(R.string.notif_autokill_body, count))
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setAutoCancel(true);
 
@@ -281,11 +281,11 @@ public class BackgroundAppManager {
                         }
                     } else {
                         handler.post(() -> Toast
-                                .makeText(context, "Failed to get running apps output", Toast.LENGTH_SHORT).show());
+                                .makeText(context, R.string.toast_running_apps_failed, Toast.LENGTH_SHORT).show());
                     }
                 } catch (Exception e) {
                     handler.post(() -> Toast
-                            .makeText(context, "Error getting running apps: " + e.getMessage(), Toast.LENGTH_SHORT)
+                            .makeText(context, context.getString(R.string.toast_running_apps_error, e.getMessage()), Toast.LENGTH_SHORT)
                             .show());
                 }
             }
@@ -518,15 +518,17 @@ public class BackgroundAppManager {
         saveBackgroundRestrictedApps(desiredPackages);
 
         if (!supportsBackgroundRestriction()) {
-            BackgroundRestrictionLog.log(context, null, "apply", "skipped", "Android 11+ required");
-            Toast.makeText(context, "Background restriction requires Android 11+", Toast.LENGTH_SHORT).show();
+            BackgroundRestrictionLog.log(context, null, "apply", "skipped",
+                    context.getString(R.string.log_detail_android11));
+            Toast.makeText(context, R.string.toast_restriction_needs_android11, Toast.LENGTH_SHORT).show();
             if (onComplete != null) {
                 handler.post(onComplete);
             }
             return;
         }
         if (!shellManager.hasAnyShellPermission()) {
-            BackgroundRestrictionLog.log(context, null, "apply", "failed", "No Root or Shizuku permission available");
+            BackgroundRestrictionLog.log(context, null, "apply", "failed",
+                    context.getString(R.string.log_detail_no_permission));
             shellManager.checkShellPermissions();
             if (onComplete != null) {
                 handler.post(onComplete);
@@ -788,7 +790,7 @@ public class BackgroundAppManager {
                 onComplete.run();
             }
         }, () -> {
-            Toast.makeText(context, "Failed to kill selected apps", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.toast_kill_selected_failed, Toast.LENGTH_SHORT).show();
             if (onComplete != null) {
                 onComplete.run();
             }
@@ -836,7 +838,7 @@ public class BackgroundAppManager {
                 onComplete.run();
             }
         }, () -> {
-            Toast.makeText(context, "Failed to stop " + packageName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.toast_kill_one_failed, packageName), Toast.LENGTH_SHORT).show();
             if (onComplete != null) {
                 onComplete.run();
             }
@@ -862,12 +864,12 @@ public class BackgroundAppManager {
 
         String command = "pm uninstall " + packageName;
         shellManager.runShellCommand(command, () -> {
-            Toast.makeText(context, "Uninstall command sent for " + packageName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.toast_uninstall_sent, packageName), Toast.LENGTH_SHORT).show();
             if (onComplete != null) {
                 onComplete.run();
             }
         }, () -> {
-            Toast.makeText(context, "Failed to uninstall " + packageName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.toast_uninstall_failed, packageName), Toast.LENGTH_SHORT).show();
             if (onComplete != null) {
                 onComplete.run();
             }
@@ -894,11 +896,11 @@ public class BackgroundAppManager {
         executor.execute(() -> {
             // Standard Android command to trim caches to 0
             shellManager.runShellCommand("pm trim-caches 4096G", () -> {
-                Toast.makeText(context, "Caches cleared", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.toast_caches_cleared, Toast.LENGTH_SHORT).show();
                 if (onComplete != null)
                     onComplete.run();
             }, () -> {
-                Toast.makeText(context, "Failed to clear caches", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.toast_caches_failed, Toast.LENGTH_SHORT).show();
                 if (onComplete != null)
                     onComplete.run();
             });

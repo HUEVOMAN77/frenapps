@@ -14,4 +14,5 @@
     <color name="text_secondary">#AAAAAA</color>
     <color name="divider_color">#333333</color>
     <color name="dialog_button_text">#FFFFFF</color>
+    <color name="notice_background">#2A2113</color>
 </resources>

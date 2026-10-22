@@ -66,6 +66,54 @@
                 style="?android:progressBarStyleHorizontal" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/permission_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/notice_background"
+            android:orientation="vertical"
+            android:paddingStart="14dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="6dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/permission_notice_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/permiso_falta_titulo"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/permission_notice_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/permiso_falta_detalle"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/permission_notice_button"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/permiso_falta_boton"
+                android:textColor="@color/colorAccent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/permission_notice_help"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/permiso_falta_ayuda"
+                android:textColor="@color/colorAccent" />
+        </LinearLayout>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefreshlayout1"
             android:layout_width="match_parent"

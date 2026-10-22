@@ -51,7 +51,7 @@ public class AppzukuWidget extends AppWidgetProvider {
 
             if (totalRam > 0) {
                 views.setTextViewText(R.id.widget_ram_text,
-                        "RAM: " + (totalRam - availableRam) + "MB / " + totalRam + "MB");
+                        context.getString(R.string.widget_ram_value, totalRam - availableRam, totalRam));
             }
             handler.post(() -> appWidgetManager.updateAppWidget(appWidgetId, views));
         }).start();

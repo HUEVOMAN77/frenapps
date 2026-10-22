@@ -58,11 +58,11 @@ public class SettingsActivity extends BaseActivity {
     private static final String TAG = "SettingsActivity";
     private static final int TOP_OFFENDERS_LIMIT = 50;
     private static final String FORK_URL = AppConstants.FORK_URL;
-    private static final String[] TOP_OFFENDER_FILTER_LABELS = {
-            "Last 12 hours",
-            "Last 24 hours",
-            "Last 7 days",
-            "All time"
+    private static final int[] TOP_OFFENDER_FILTER_LABELS_RES = {
+            R.string.filter_last_12h,
+            R.string.filter_last_24h,
+            R.string.filter_last_7d,
+            R.string.filter_all_time
     };
     private static final long[] TOP_OFFENDER_FILTER_WINDOWS_MS = {
             STATS_HISTORY_DURATION_MS,
@@ -212,16 +212,15 @@ public class SettingsActivity extends BaseActivity {
             if (isChecked && !sharedPreferences.getBoolean("system_apps_warning_shown", false)) {
                 // Show warning on first enable
                 new AlertDialog.Builder(this)
-                        .setTitle("âš ï¸ Warning: System Apps")
-                        .setMessage(
-                                "System apps are critical for device stability. Blocking or killing system apps (like 'Security' on Xiaomi devices) may cause crashes, boot loops, or device malfunction.\n\nOnly modify system apps if you know what you're doing.")
-                        .setPositiveButton("I Understand", (dialog, which) -> {
+                        .setTitle(R.string.warn_system_apps_title)
+                        .setMessage(R.string.warn_system_apps_body)
+                        .setPositiveButton(R.string.action_i_understand, (dialog, which) -> {
                             sharedPreferences.edit()
                                     .putBoolean(KEY_SHOW_SYSTEM_APPS, true)
                                     .putBoolean("system_apps_warning_shown", true)
                                     .apply();
                         })
-                        .setNegativeButton("Cancel", (dialog, which) -> {
+                        .setNegativeButton(R.string.action_cancel, (dialog, which) -> {
                             buttonView.setChecked(false);
                         })
                         .show();
@@ -250,7 +249,7 @@ public class SettingsActivity extends BaseActivity {
         binding.layoutReapplyRestrictions.setOnClickListener(v -> {
             Set<String> savedRestrictions = appManager.getBackgroundRestrictedApps();
             if (savedRestrictions.isEmpty()) {
-                Toast.makeText(this, "No saved background restrictions to re-apply", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toast_no_saved_restrictions, Toast.LENGTH_SHORT).show();
                 return;
             }
             appManager.reapplySavedBackgroundRestrictions(null);
@@ -301,9 +300,9 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void showKillModeDialog() {
-        String[] modes = { "Whitelist Mode (Kill all except...)", "Blacklist Mode (Kill only...)" };
+        String[] modes = { getString(R.string.mode_whitelist_desc), getString(R.string.mode_blacklist_desc) };
         new AlertDialog.Builder(this)
-                .setTitle("Select Kill Mode")
+                .setTitle(R.string.dialog_kill_mode_title)
                 .setSingleChoiceItems(modes, appManager.getKillMode(), (dialog, which) -> {
                     appManager.setKillMode(which);
                     updateKillModeVisibility();
@@ -321,15 +320,15 @@ public class SettingsActivity extends BaseActivity {
         LinearLayout filterOptions = dialogView.findViewById(R.id.filter_options_container);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Blacklisted apps (Target to kill)")
+                .setTitle(R.string.dialog_blacklist_title)
                 .setView(dialogView);
 
         AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable(
                 new ColorDrawable(ContextCompat.getColor(this, R.color.background_primary)));
-        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", (d, w) -> {
+        dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_save), (d, w) -> {
         });
-        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (d, w) -> d.dismiss());
+        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_cancel), (d, w) -> d.dismiss());
         searchBox.setVisibility(View.GONE);
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.dialog_button_text));
@@ -366,7 +365,7 @@ public class SettingsActivity extends BaseActivity {
                 }
             });
 
-            dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", (d, w) -> {
+            dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_save), (d, w) -> {
                 appManager.saveBlacklistedApps(filterAdapter.getSelectedPackages());
             });
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.dialog_button_text));
@@ -402,21 +401,23 @@ public class SettingsActivity extends BaseActivity {
 
                 List<String> detailParts = new ArrayList<>();
                 if (stats.killCount > 0) {
-                    String killDetail = "Killed " + stats.killCount + "x";
+                    String killDetail = getString(R.string.hist_killed_x, stats.killCount);
                     if (stats.lastKillTime > 0) {
-                        killDetail += " (last " + timeFormat.format(new java.util.Date(stats.lastKillTime)) + ")";
+                        killDetail += getString(R.string.hist_last_at,
+                                timeFormat.format(new java.util.Date(stats.lastKillTime)));
                     }
                     detailParts.add(killDetail);
                 }
                 if (stats.relaunchCount > 0) {
-                    String relaunchDetail = "Relaunched " + stats.relaunchCount + "x";
+                    String relaunchDetail = getString(R.string.hist_relaunched_x, stats.relaunchCount);
                     if (stats.lastRelaunchTime > 0) {
-                        relaunchDetail += " (last " + timeFormat.format(new java.util.Date(stats.lastRelaunchTime)) + ")";
+                        relaunchDetail += getString(R.string.hist_last_at,
+                                timeFormat.format(new java.util.Date(stats.lastRelaunchTime)));
                     }
                     detailParts.add(relaunchDetail);
                 }
                 if (stats.totalRecoveredKb > 0) {
-                    detailParts.add("Recovered " + formatRecoveredSize(stats.totalRecoveredKb));
+                    detailParts.add(getString(R.string.hist_recovered, formatRecoveredSize(stats.totalRecoveredKb)));
                 }
 
                 long lastEventTime = Math.max(stats.lastKillTime, stats.lastRelaunchTime);
@@ -434,8 +435,7 @@ public class SettingsActivity extends BaseActivity {
 
             Collections.sort(historyEntries, (a, b) -> Long.compare(b.lastEventTime, a.lastEventTime));
             List<SettingsSurfaceRow> rows = buildKillHistoryRows(historyEntries);
-            String summary = String.format(Locale.US,
-                    "Last 12 hours: %d apps | Kills %d | Relaunches %d | Recovered %s",
+            String summary = getString(R.string.hist_summary_12h,
                     rows.size(),
                     totalKills,
                     totalRelaunches,
@@ -445,7 +445,7 @@ public class SettingsActivity extends BaseActivity {
                 if (!isUiUsable()) {
                     return;
                 }
-                SettingsListContent content = createSettingsListContent("No activity in the last 12 hours.", false);
+                SettingsListContent content = createSettingsListContent(getString(R.string.hist_empty_12h), false);
                 SettingsSurfaceAdapter adapter = new SettingsSurfaceAdapter();
                 adapter.setItems(rows);
                 content.listView.setAdapter(adapter);
@@ -461,10 +461,12 @@ public class SettingsActivity extends BaseActivity {
                 content.listView.setVisibility(View.VISIBLE);
                 content.emptyView.setVisibility(rows.isEmpty() ? View.VISIBLE : View.GONE);
 
-                AlertDialog dialog = createSettingsSurfaceDialog("Kill History", "Last 12 hours", content.rootView);
-                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Close", (d, w) -> d.dismiss());
+                AlertDialog dialog = createSettingsSurfaceDialog(
+                        getString(R.string.settings_kill_history_title),
+                        getString(R.string.filter_last_12h), content.rootView);
+                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_close), (d, w) -> d.dismiss());
                 if (appManager.supportsBackgroundRestriction() && !highRelaunchPackages.isEmpty()) {
-                    dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Restrict Greedy Apps in Background", (d, w) -> {
+                    dialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.restrict_greedy), (d, w) -> {
                         Set<String> currentRestricted = appManager.getBackgroundRestrictedApps();
                         currentRestricted.addAll(highRelaunchPackages);
                         appManager.applyBackgroundRestriction(currentRestricted, null);
@@ -477,7 +479,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void showTopOffendersDialog() {
-        SettingsListContent content = createSettingsListContent("No offenders for this period", true);
+        SettingsListContent content = createSettingsListContent(getString(R.string.no_top_offenders), true);
         Spinner filterSpinner = content.filterSpinner;
         TextView summaryText = content.summaryText;
         ProgressBar loading = content.loading;
@@ -494,16 +496,20 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
+        String[] filterLabels = new String[TOP_OFFENDER_FILTER_LABELS_RES.length];
+        for (int i = 0; i < filterLabels.length; i++) {
+            filterLabels[i] = getString(TOP_OFFENDER_FILTER_LABELS_RES[i]);
+        }
         ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, TOP_OFFENDER_FILTER_LABELS);
+                this, android.R.layout.simple_spinner_item, filterLabels);
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(filterAdapter);
 
         AlertDialog dialog = createSettingsSurfaceDialog(
-                "Top Offenders",
-                "Rank apps by kills, relaunches, and RAM recovered.",
+                getString(R.string.settings_top_offenders_title),
+                getString(R.string.top_offenders_subtitle),
                 content.rootView);
-        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Close", (d, w) -> d.dismiss());
+        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_close), (d, w) -> d.dismiss());
         dialog.show();
         styleDialogButtons(dialog);
 
@@ -529,7 +535,7 @@ public class SettingsActivity extends BaseActivity {
         loading.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
-        summaryText.setText("Loading...");
+        summaryText.setText(R.string.loading);
 
         executor.execute(() -> {
             long windowMs = TOP_OFFENDER_FILTER_WINDOWS_MS[selectedFilterIndex];
@@ -554,9 +560,8 @@ public class SettingsActivity extends BaseActivity {
                 totalRecoveredKb += offender.recoveredKb;
             }
 
-            String summary = String.format(Locale.US,
-                    "%s: %d apps | Kills %d | Relaunches %d | Recovered %s",
-                    TOP_OFFENDER_FILTER_LABELS[selectedFilterIndex],
+            String summary = getString(R.string.offenders_summary,
+                    getString(TOP_OFFENDER_FILTER_LABELS_RES[selectedFilterIndex]),
                     offenders.size(),
                     totalKills,
                     totalRelaunches,
@@ -669,7 +674,7 @@ public class SettingsActivity extends BaseActivity {
             intent.setData(Uri.parse("package:" + packageName));
             startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(this, "Unable to open app info", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_app_info_failed, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -826,7 +831,7 @@ public class SettingsActivity extends BaseActivity {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select App Theme");
+        builder.setTitle(R.string.dialog_theme_title);
         builder.setSingleChoiceItems(getResources().getStringArray(R.array.settings_theme_labels), selectedIndex,
                 (dialog, which) -> {
             int newTheme = THEME_VALUES[which];
@@ -836,7 +841,7 @@ public class SettingsActivity extends BaseActivity {
             dialog.dismiss();
             recreate(); // Recreate activity to apply theme
         });
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton(R.string.action_cancel, null);
 
         AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable(
@@ -890,7 +895,7 @@ public class SettingsActivity extends BaseActivity {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Kill Interval");
+        builder.setTitle(R.string.dialog_interval_title);
         builder.setSingleChoiceItems(getResources().getStringArray(R.array.settings_kill_interval_labels), selectedIndex,
                 (dialog, which) -> {
             int newInterval = KILL_INTERVALS_MS[which];
@@ -898,7 +903,7 @@ public class SettingsActivity extends BaseActivity {
             updateKillIntervalText(newInterval);
             dialog.dismiss();
         });
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton(R.string.action_cancel, null);
 
         AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable(
@@ -916,15 +921,15 @@ public class SettingsActivity extends BaseActivity {
         LinearLayout filterOptions = dialogView.findViewById(R.id.filter_options_container);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Whitelisted apps (never kill)")
+                .setTitle(R.string.dialog_whitelist_title)
                 .setView(dialogView);
 
         AlertDialog whitelistDialog = builder.create();
         whitelistDialog.getWindow().setBackgroundDrawable(
                 new ColorDrawable(ContextCompat.getColor(this, R.color.background_primary)));
 
-        whitelistDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
-        whitelistDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", (dialog, which) -> {
+        whitelistDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_cancel), (dialog, which) -> dialog.dismiss());
+        whitelistDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_save), (dialog, which) -> {
         });
 
         progressBar.setVisibility(View.VISIBLE);
@@ -968,7 +973,7 @@ public class SettingsActivity extends BaseActivity {
                 }
             });
 
-            whitelistDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", (dialog, which) -> {
+            whitelistDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_save), (dialog, which) -> {
                 Set<String> packagesToWhitelist = filterAdapter.getSelectedPackages();
                 appManager.saveWhitelistedApps(packagesToWhitelist);
             });
@@ -985,15 +990,15 @@ public class SettingsActivity extends BaseActivity {
         LinearLayout filterOptions = dialogView.findViewById(R.id.filter_options_container);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Select the apps you want to hide")
+                .setTitle(R.string.dialog_hidden_title)
                 .setView(dialogView);
 
         AlertDialog filterDialog = builder.create();
         filterDialog.getWindow().setBackgroundDrawable(
                 new ColorDrawable(ContextCompat.getColor(this, R.color.background_primary)));
 
-        filterDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
-        filterDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", (dialog, which) -> {
+        filterDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_cancel), (dialog, which) -> dialog.dismiss());
+        filterDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_save), (dialog, which) -> {
         });
 
         progressBar.setVisibility(View.VISIBLE);
@@ -1037,7 +1042,7 @@ public class SettingsActivity extends BaseActivity {
                 }
             });
 
-            filterDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", (dialog, which) -> {
+            filterDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_save), (dialog, which) -> {
                 Set<String> packagesToHide = filterAdapter.getSelectedPackages();
                 appManager.saveHiddenApps(packagesToHide);
             });
@@ -1054,15 +1059,15 @@ public class SettingsActivity extends BaseActivity {
         LinearLayout filterOptions = dialogView.findViewById(R.id.filter_options_container);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Background Restriction")
+                .setTitle(R.string.dialog_restriction_title)
                 .setView(dialogView);
 
         AlertDialog restrictionDialog = builder.create();
         restrictionDialog.getWindow().setBackgroundDrawable(
                 new ColorDrawable(ContextCompat.getColor(this, R.color.background_primary)));
 
-        restrictionDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
-        restrictionDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", (dialog, which) -> {
+        restrictionDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_cancel), (dialog, which) -> dialog.dismiss());
+        restrictionDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_save), (dialog, which) -> {
         });
 
         progressBar.setVisibility(View.VISIBLE);
@@ -1106,7 +1111,7 @@ public class SettingsActivity extends BaseActivity {
                 }
             });
 
-            restrictionDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", (dialog, which) -> {
+            restrictionDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_save), (dialog, which) -> {
                 Set<String> targetPackages = filterAdapter.getSelectedPackages();
                 Set<String> currentDesired = new java.util.HashSet<>(desiredRestrictedApps);
                 Set<String> packagesToRestrict = new java.util.HashSet<>(targetPackages);
@@ -1123,18 +1128,17 @@ public class SettingsActivity extends BaseActivity {
                 // Show warning if system apps are selected
                 if (systemAppCount > 0) {
                     new AlertDialog.Builder(SettingsActivity.this)
-                            .setTitle("System Apps Selected")
-                            .setMessage("You have selected " + systemAppCount
-                                    + " system app(s) for background restriction.\n\nThis can break notifications, widgets, VPNs, keyboards, accessibility services, companion devices, or device stability.\n\nDo you want to continue?")
-                            .setPositiveButton("Yes, Apply", (d2, w2) -> appManager.applyBackgroundRestriction(targetPackages, null))
-                            .setNegativeButton("Cancel", null)
+                            .setTitle(R.string.dialog_system_selected_title)
+                            .setMessage(getString(R.string.dialog_system_selected_body, systemAppCount))
+                            .setPositiveButton(R.string.action_yes_apply, (d2, w2) -> appManager.applyBackgroundRestriction(targetPackages, null))
+                            .setNegativeButton(R.string.action_cancel, null)
                             .show();
                 } else if (!packagesToRestrict.isEmpty()) {
                     new AlertDialog.Builder(SettingsActivity.this)
-                            .setTitle("Background Restriction Warning")
-                            .setMessage("Restricted apps may stop syncing, miss notifications, stop updating widgets, or fail to perform background tasks until you open them again.\n\nDo you want to continue?")
-                            .setPositiveButton("Apply", (d2, w2) -> appManager.applyBackgroundRestriction(targetPackages, null))
-                            .setNegativeButton("Cancel", null)
+                            .setTitle(R.string.dialog_restriction_warning_title)
+                            .setMessage(R.string.dialog_restriction_warning_body)
+                            .setPositiveButton(R.string.action_apply, (d2, w2) -> appManager.applyBackgroundRestriction(targetPackages, null))
+                            .setNegativeButton(R.string.action_cancel, null)
                             .show();
                 } else {
                     appManager.applyBackgroundRestriction(targetPackages, null);
@@ -1159,7 +1163,7 @@ public class SettingsActivity extends BaseActivity {
         }
 
         new AlertDialog.Builder(this)
-                .setTitle("Select RAM Threshold")
+                .setTitle(R.string.dialog_ram_title)
                 .setSingleChoiceItems(getResources().getStringArray(R.array.settings_ram_threshold_labels), selected,
                         (dialog, which) -> {
                     sharedPreferences.edit().putInt(KEY_RAM_THRESHOLD, RAM_THRESHOLD_VALUES[which]).apply();
@@ -1205,7 +1209,7 @@ public class SettingsActivity extends BaseActivity {
     private void showBackupRestoreDialog() {
         String[] options = { "Backup Settings", "Restore Settings" };
         new AlertDialog.Builder(this)
-                .setTitle("Backup & Restore")
+                .setTitle(R.string.dialog_backup_title)
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
                         createBackupLauncher.launch("appzuku_backup.json");
@@ -1220,20 +1224,20 @@ public class SettingsActivity extends BaseActivity {
         executor.execute(() -> {
             String json = backupManager.createBackupJson();
             if (json == null) {
-                handler.post(() -> Toast.makeText(this, "Failed to create backup data", Toast.LENGTH_SHORT).show());
+                handler.post(() -> Toast.makeText(this, R.string.toast_backup_data_failed, Toast.LENGTH_SHORT).show());
                 return;
             }
 
             try (OutputStream os = getContentResolver().openOutputStream(uri)) {
                 if (os != null) {
                     os.write(json.getBytes(StandardCharsets.UTF_8));
-                    handler.post(() -> Toast.makeText(this, "Backup saved successfully", Toast.LENGTH_SHORT).show());
+                    handler.post(() -> Toast.makeText(this, R.string.toast_backup_saved, Toast.LENGTH_SHORT).show());
                 } else {
-                    handler.post(() -> Toast.makeText(this, "Failed to write to file", Toast.LENGTH_SHORT).show());
+                    handler.post(() -> Toast.makeText(this, R.string.toast_backup_write_failed, Toast.LENGTH_SHORT).show());
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Export failed", e);
-                handler.post(() -> Toast.makeText(this, "Export failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                handler.post(() -> Toast.makeText(this, getString(R.string.toast_export_failed, e.getMessage()), Toast.LENGTH_SHORT).show());
             }
         });
     }
@@ -1263,10 +1267,10 @@ public class SettingsActivity extends BaseActivity {
                                     && !appManager.canApplyBackgroundRestrictionNow()) {
                                 Toast.makeText(
                                         this,
-                                        "Restore saved settings. Grant Shizuku/Root to reapply background restrictions.",
+                                        getString(R.string.restore_needs_permission),
                                         Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(this, "Restore successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, R.string.toast_restore_ok, Toast.LENGTH_SHORT).show();
                             }
                         };
 
@@ -1276,18 +1280,18 @@ public class SettingsActivity extends BaseActivity {
                             finishRestore.run();
                         }
                     } else {
-                        Toast.makeText(this, "Restore failed: Invalid data", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.toast_restore_bad, Toast.LENGTH_SHORT).show();
                     }
                 });
             } catch (Exception e) {
                 Log.e(TAG, "Import failed", e);
-                handler.post(() -> Toast.makeText(this, "Import failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                handler.post(() -> Toast.makeText(this, getString(R.string.toast_import_failed, e.getMessage()), Toast.LENGTH_SHORT).show());
             }
         });
     }
 
     private void showBackgroundRestrictionLogDialog() {
-        SettingsListContent content = createSettingsListContent("No background restriction events logged yet.", false);
+        SettingsListContent content = createSettingsListContent(getString(R.string.restriction_log_empty), false);
         SettingsSurfaceAdapter adapter = new SettingsSurfaceAdapter();
         content.listView.setAdapter(adapter);
         content.listView.setEmptyView(content.emptyView);
@@ -1299,22 +1303,21 @@ public class SettingsActivity extends BaseActivity {
         });
         content.loading.setVisibility(View.VISIBLE);
         content.listView.setVisibility(View.GONE);
-        content.summaryText.setText("Loading...");
+        content.summaryText.setText(R.string.loading);
 
         AlertDialog dialog = createSettingsSurfaceDialog(
-                "Restriction Log",
-                "Recent background restriction results. Stored in cache and capped automatically.",
+                getString(R.string.settings_restriction_log_title),
+                getString(R.string.restriction_log_subtitle),
                 content.rootView);
-        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Close", (d, w) -> d.dismiss());
-        dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Clear", (d, w) -> {
+        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_close), (d, w) -> d.dismiss());
+        dialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.action_clear), (d, w) -> {
         });
         dialog.show();
         styleDialogButtons(dialog);
 
         Runnable reloadLog = () -> executor.execute(() -> {
             List<SettingsSurfaceRow> rows = buildRestrictionLogRows(BackgroundRestrictionLog.readEntries(this));
-            String summary = String.format(Locale.US, "Recent events: %d entries | Cache-backed and capped at 200",
-                    rows.size());
+            String summary = getString(R.string.restriction_log_summary, rows.size());
             handler.post(() -> {
                 adapter.setItems(rows);
                 content.summaryText.setText(summary);
@@ -1328,7 +1331,7 @@ public class SettingsActivity extends BaseActivity {
         dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             appManager.clearBackgroundRestrictionLog();
             reloadLog.run();
-            Toast.makeText(this, "Restriction log cleared", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_restriction_log_cleared, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -1369,12 +1372,11 @@ public class SettingsActivity extends BaseActivity {
                     "#" + (i + 1),
                     offender.appName,
                     offender.packageName,
-                    String.format(Locale.US,
-                            "Killed: %dx | Relaunched: %dx | Recovered: %s",
+                    getString(R.string.offender_row,
                             offender.killCount,
                             offender.relaunchCount,
                             formatRecoveredSize(offender.recoveredKb)),
-                    "Score " + formatScore(offender.score),
+                    getString(R.string.score_badge, formatScore(offender.score)),
                     offender.packageName));
         }
         return rows;
@@ -1431,7 +1433,17 @@ public class SettingsActivity extends BaseActivity {
 
     private String humanizeLogAction(String action) {
         if (action == null || action.trim().isEmpty()) {
-            return "Event";
+            return getString(R.string.log_action_event);
+        }
+        String token = action.trim().toLowerCase(Locale.US);
+        if (token.equals("apply") || token.equals("restrict")) {
+            return getString(R.string.log_action_apply);
+        }
+        if (token.equals("remove") || token.equals("allow")) {
+            return getString(R.string.log_action_remove);
+        }
+        if (token.startsWith("verify")) {
+            return getString(R.string.log_action_verify);
         }
         String normalized = action.trim().replace('-', ' ').replace('_', ' ');
         return Character.toUpperCase(normalized.charAt(0)) + normalized.substring(1);

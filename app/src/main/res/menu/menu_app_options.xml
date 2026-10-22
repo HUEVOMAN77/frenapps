@@ -2,29 +2,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_app_info"
-        android:title="App Info" />
+        android:title="@string/opt_app_info" />
     <item
         android:id="@+id/action_uninstall"
-        android:title="Uninstall" />
+        android:title="@string/opt_uninstall" />
     <item
         android:id="@+id/action_add_to_list"
-        android:title="Add to List...">
+        android:title="@string/opt_add_to_list">
         <menu>
             <item
                 android:id="@+id/action_whitelist"
-                android:title="Whitelist"
+                android:title="@string/opt_whitelist"
                 android:checkable="true" />
             <item
                 android:id="@+id/action_blacklist"
-                android:title="Blacklist"
+                android:title="@string/opt_blacklist"
                 android:checkable="true" />
             <item
                 android:id="@+id/action_hidden"
-                android:title="Hidden"
+                android:title="@string/opt_hidden"
                 android:checkable="true" />
             <item
                 android:id="@+id/action_background_restriction"
-                android:title="Background Restriction"
+                android:title="@string/opt_background_restriction"
                 android:checkable="true" />
         </menu>
     </item>

@@ -64,14 +64,14 @@ public class ShappkyBackgroundKillTile extends TileService {
             if (!shellManager.resolveAnyShellPermission()) {
                 handler.post(() -> {
                     shellManager.checkShellPermissions();
-                    Toast.makeText(this, "Shizuku or Root permission required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.toast_permission_required, Toast.LENGTH_SHORT).show();
                     updateTileState();
                 });
                 return;
             }
 
             backgroundAppManager.performAutoKill(() -> {
-                Toast.makeText(this, "Configured background kill finished", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toast_bg_kill_finished, Toast.LENGTH_SHORT).show();
                 updateTileState();
             });
         });

@@ -55,7 +55,7 @@ public final class BackgroundRestrictionLog {
     public static String readDisplayText(Context context) {
         List<LogEntry> entries = readEntries(context);
         if (entries.isEmpty()) {
-            return "No background restriction events logged yet.\n\nEntries are stored temporarily in cache and trimmed automatically.";
+            return context.getString(R.string.restriction_log_empty);
         }
 
         StringBuilder display = new StringBuilder();

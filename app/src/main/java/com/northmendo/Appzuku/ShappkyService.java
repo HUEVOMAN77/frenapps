@@ -48,8 +48,8 @@ public class ShappkyService extends Service {
         createNotificationChannel();
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_SERVICE)
-                .setContentTitle("Appzuku Service")
-                .setContentText("Monitoring background apps...")
+                .setContentTitle(getString(R.string.service_notif_title))
+                .setContentText(getString(R.string.service_notif_body))
                 .setSmallIcon(R.drawable.ic_shappky)
                 .setOngoing(true)
                 .build();
@@ -152,7 +152,7 @@ public class ShappkyService extends Service {
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID_SERVICE, "Appzuku Foreground Service",
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID_SERVICE, getString(R.string.notif_channel_service),
                     NotificationManager.IMPORTANCE_LOW);
             getSystemService(NotificationManager.class).createNotificationChannel(channel);
         }

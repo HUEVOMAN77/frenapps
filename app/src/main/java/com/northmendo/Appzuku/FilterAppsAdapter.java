@@ -115,12 +115,12 @@ public class FilterAppsAdapter extends BaseAdapter implements Filterable {
 
         AppModel app = getItem(position);
         holder.appName.setText(app.getAppName());
-        String statusText = app.getBackgroundRestrictionStatusText();
-        if (statusText.isEmpty()) {
+        int statusLabelRes = app.getBackgroundRestrictionStatusLabelRes();
+        if (statusLabelRes == 0) {
             holder.appStatus.setVisibility(View.GONE);
         } else {
             holder.appStatus.setVisibility(View.VISIBLE);
-            holder.appStatus.setText(statusText);
+            holder.appStatus.setText(statusLabelRes);
         }
         holder.appIcon.setImageDrawable(app.getAppIcon());
         holder.checkBox.setChecked(app.isSelected());

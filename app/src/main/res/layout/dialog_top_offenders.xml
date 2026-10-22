@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="No offenders for this period"
+            android:text="@string/no_top_offenders"
             android:textColor="@color/text_secondary"
             android:textSize="13sp"
             android:visibility="gone" />

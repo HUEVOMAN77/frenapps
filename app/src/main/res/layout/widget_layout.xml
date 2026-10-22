@@ -11,7 +11,7 @@
         android:id="@+id/widget_ram_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RAM: --"
+        android:text="@string/widget_ram"
         android:textColor="@android:color/white"
         android:textSize="12sp" />
 
@@ -19,7 +19,7 @@
         android:id="@+id/widget_button_clean"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clean"
+        android:text="@string/widget_clean"
         android:textSize="12sp"
         android:backgroundTint="@color/colorAccent" />
 

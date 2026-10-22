@@ -61,7 +61,7 @@ public class ShappkyQuickTile extends TileService {
             if (!shellManager.resolveAnyShellPermission()) {
                 handler.post(() -> {
                     shellManager.checkShellPermissions();
-                    Toast.makeText(this, "Shizuku or Root permission required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.toast_permission_required, Toast.LENGTH_SHORT).show();
                     updateTileState();
                 });
                 return;
@@ -110,18 +110,18 @@ public class ShappkyQuickTile extends TileService {
                 shellManager.runShellCommand(cmd, () -> {
                     logKilledPackage(killedPackage);
                     handler.post(() -> {
-                        Toast.makeText(this, "Killed: " + killedPackage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.toast_killed, killedPackage), Toast.LENGTH_SHORT).show();
                         updateTileState();
                     });
                 }, () -> {
                     handler.post(() -> {
-                        Toast.makeText(this, "Failed to kill: " + killedPackage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.toast_kill_failed, killedPackage), Toast.LENGTH_SHORT).show();
                         updateTileState();
                     });
                 });
             } else {
                 handler.post(() -> {
-                    Toast.makeText(this, "No killable foreground app found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.toast_no_foreground_app, Toast.LENGTH_SHORT).show();
                     updateTileState();
                 });
             }

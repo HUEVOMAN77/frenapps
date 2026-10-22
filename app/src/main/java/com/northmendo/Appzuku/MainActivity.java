@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     private static final int NOTIFICATION_PERMISSION_CODE = 1;
     private static final String FORK_URL = AppConstants.FORK_URL;
-    private static final String REPLACEMENT_NOTICE_VERSION = "1.3.17-fork.1";
+    private static final String REPLACEMENT_NOTICE_VERSION = "1.3.17-fork.2";
 
     private ActivityMainBinding binding;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -106,8 +106,20 @@ public class MainActivity extends BaseActivity {
         shellManager.setShizukuPermissionListener(shizukuPermissionListener);
         shellManager.checkShellPermissions();
         loadBackgroundApps();
+        updatePermissionNotice();
+        handler.postDelayed(this::updatePermissionNotice, 1500);
         ramMonitor.startMonitoring();
+        maybeShowOnboarding();
         maybeShowReplacementNotice();
+    }
+
+    /** La intro se muestra una sola vez, antes de que la gente se pierda con la lista vacia. */
+    private void maybeShowOnboarding() {
+        if (sharedPreferences.getBoolean(KEY_ONBOARDING_SHOWN, false)) {
+            return;
+        }
+        sharedPreferences.edit().putBoolean(KEY_ONBOARDING_SHOWN, true).apply();
+        startActivity(new Intent(this, OnboardingActivity.class));
     }
 
     @Override
@@ -116,6 +128,7 @@ public class MainActivity extends BaseActivity {
         // Reload settings in case they changed in SettingsActivity
         loadSettingsAndApplyToManager();
         loadBackgroundApps();
+        updatePermissionNotice();
     }
 
     private void loadSettingsAndApplyToManager() {
@@ -130,6 +143,8 @@ public class MainActivity extends BaseActivity {
     private void setupListeners() {
         binding.swiperefreshlayout1.setOnRefreshListener(this::loadBackgroundApps);
         binding.fab.setOnClickListener(view -> killSelectedApps());
+        binding.permissionNoticeButton.setOnClickListener(v -> shellManager.checkShellPermissions());
+        binding.permissionNoticeHelp.setOnClickListener(v -> startActivity(new Intent(this, HelpActivity.class)));
 
         listAdapter.setOnAppActionListener(new BackgroundAppsRecyclerViewAdapter.OnAppActionListener() {
             @Override
@@ -143,10 +158,9 @@ public class MainActivity extends BaseActivity {
                 app.setWhitelisted(isNowWhitelisted);
                 listAdapter.notifyItemChanged(position);
 
-                String message = isNowWhitelisted
-                        ? "Added to whitelist (never kill)"
-                        : "Removed from whitelist";
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, isNowWhitelisted
+                        ? R.string.toast_added_whitelist
+                        : R.string.toast_removed_whitelist, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -221,21 +235,18 @@ public class MainActivity extends BaseActivity {
             intent.setData(Uri.parse("package:" + packageName));
             startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(this, "Unable to open app info", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_app_info_failed, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void showUninstallConfirmation(AppModel app) {
-        String message = "This will use shell commands (Shizuku/Root) to uninstall the app.\n\n" +
-                "Note: System apps may not be uninstallable on all devices.";
-
         new AlertDialog.Builder(this)
-                .setTitle("Uninstall " + app.getAppName())
-                .setMessage(message)
-                .setPositiveButton("Uninstall", (dialog, which) -> {
+                .setTitle(getString(R.string.uninstall_dialog_title, app.getAppName()))
+                .setMessage(R.string.uninstall_dialog_body)
+                .setPositiveButton(R.string.opt_uninstall, (dialog, which) -> {
                     appManager.uninstallPackage(app.getPackageName(), this::loadBackgroundApps);
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.action_cancel, null)
                 .show();
     }
 
@@ -270,23 +281,23 @@ public class MainActivity extends BaseActivity {
     private void toggleListMembership(AppModel app, String listType) {
         String packageName = app.getPackageName();
         Set<String> currentSet;
-        String addedMsg, removedMsg;
+        int addedMsg, removedMsg;
 
         switch (listType) {
             case "whitelist":
                 currentSet = appManager.getWhitelistedApps();
-                addedMsg = "Added to whitelist";
-                removedMsg = "Removed from whitelist";
+                addedMsg = R.string.toast_added_whitelist;
+                removedMsg = R.string.toast_removed_whitelist;
                 break;
             case "blacklist":
                 currentSet = appManager.getBlacklistedApps();
-                addedMsg = "Added to blacklist";
-                removedMsg = "Removed from blacklist";
+                addedMsg = R.string.toast_added_blacklist;
+                removedMsg = R.string.toast_removed_blacklist;
                 break;
             case "hidden":
                 currentSet = appManager.getHiddenApps();
-                addedMsg = "App hidden";
-                removedMsg = "App unhidden";
+                addedMsg = R.string.toast_app_hidden;
+                removedMsg = R.string.toast_app_unhidden;
                 break;
             default:
                 return;
@@ -329,10 +340,10 @@ public class MainActivity extends BaseActivity {
         boolean enableRestriction = !app.isBackgroundRestrictionDesired();
         if (enableRestriction && app.isSystemApp()) {
             new AlertDialog.Builder(this)
-                    .setTitle("System App Warning")
-                    .setMessage("Restricting background activity for a system app can break notifications, widgets, VPNs, keyboards, accessibility features, or device stability.\n\nOnly continue if you understand the risk.")
-                    .setPositiveButton("Apply", (dialog, which) -> applyBackgroundRestriction(app, true))
-                    .setNegativeButton("Cancel", null)
+                    .setTitle(R.string.sysapp_restriction_title)
+                    .setMessage(R.string.sysapp_restriction_body)
+                    .setPositiveButton(R.string.action_apply, (dialog, which) -> applyBackgroundRestriction(app, true))
+                    .setNegativeButton(R.string.action_cancel, null)
                     .show();
             return;
         }
@@ -341,23 +352,23 @@ public class MainActivity extends BaseActivity {
 
     private void showOutOfSyncRestrictionDialog(AppModel app) {
         new AlertDialog.Builder(this)
-                .setTitle("Background Restriction Out of Sync")
+                .setTitle(R.string.desync_restriction_title)
                 .setMessage(app.getAppName()
                         + " is still on Appzuku's saved restriction list, but Android is not currently restricting it.\n\nRe-apply the restriction or remove it from Appzuku's list?")
-                .setPositiveButton("Re-apply", (dialog, which) -> applyBackgroundRestriction(app, true))
-                .setNeutralButton("Remove from List", (dialog, which) -> applyBackgroundRestriction(app, false))
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton(R.string.action_reapply, (dialog, which) -> applyBackgroundRestriction(app, true))
+                .setNeutralButton(R.string.action_remove_from_list, (dialog, which) -> applyBackgroundRestriction(app, false))
+                .setNegativeButton(R.string.action_cancel, null)
                 .show();
     }
 
     private void showExternalRestrictionDialog(AppModel app) {
         new AlertDialog.Builder(this)
-                .setTitle("Restricted Outside Appzuku")
+                .setTitle(R.string.external_restriction_title)
                 .setMessage(app.getAppName()
                         + " is currently restricted by Android, but it is not on Appzuku's saved list.\n\nAdd it to Appzuku or remove the current restriction?")
-                .setPositiveButton("Add to Appzuku", (dialog, which) -> applyBackgroundRestriction(app, true))
-                .setNeutralButton("Remove Restriction", (dialog, which) -> applyBackgroundRestriction(app, false))
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton(R.string.action_add_to_frenapps, (dialog, which) -> applyBackgroundRestriction(app, true))
+                .setNeutralButton(R.string.action_remove_restriction, (dialog, which) -> applyBackgroundRestriction(app, false))
+                .setNegativeButton(R.string.action_cancel, null)
                 .show();
     }
 
@@ -367,15 +378,15 @@ public class MainActivity extends BaseActivity {
 
     private String getBackgroundRestrictionMenuTitle(AppModel app) {
         if (app.needsBackgroundRestrictionReapply()) {
-            return "Background Restriction (Out of Sync)";
+            return getString(R.string.opt_restriction_out_of_sync);
         }
         if (app.isBackgroundRestrictionExternal()) {
-            return "Background Restriction (External)";
+            return getString(R.string.opt_restriction_external);
         }
         if (app.isBackgroundRestrictionDesired() && !app.isBackgroundRestrictionActualKnown()) {
-            return "Background Restriction (Saved)";
+            return getString(R.string.opt_restriction_saved);
         }
-        return "Background Restriction";
+        return getString(R.string.opt_background_restriction);
     }
 
     // Load background apps with selection preservation
@@ -408,9 +419,19 @@ public class MainActivity extends BaseActivity {
             }
 
             filterApps(currentSearchQuery);
-            binding.runningApps.setText("Running apps: " + fullAppsList.size());
+            binding.runningApps.setText(getString(R.string.running_apps_count, fullAppsList.size()));
             binding.swiperefreshlayout1.setRefreshing(false);
+            updatePermissionNotice();
         });
+    }
+
+    /** Sin Root ni Shizuku la lista queda vacia sin mas; el aviso explica por que. */
+    private void updatePermissionNotice() {
+        if (binding == null || !isUiUsable()) {
+            return;
+        }
+        binding.permissionNotice.setVisibility(
+                shellManager.hasAnyShellPermission() ? View.GONE : View.VISIBLE);
     }
 
     private void filterApps(String query) {
@@ -500,7 +521,7 @@ public class MainActivity extends BaseActivity {
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Search apps...");
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -578,7 +599,7 @@ public class MainActivity extends BaseActivity {
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setView(dialogView)
-                .setPositiveButton("Apply", (dialog, which) -> {
+                .setPositiveButton(R.string.action_apply, (dialog, which) -> {
                     int checkedId = radioGroup.getCheckedRadioButtonId();
                     int newSortMode = AppConstants.SORT_MODE_DEFAULT;
 
@@ -596,7 +617,7 @@ public class MainActivity extends BaseActivity {
                     sharedPreferences.edit().putInt(KEY_SORT_MODE, newSortMode).apply();
                     filterApps(currentSearchQuery); // Re-filter and sort
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.action_cancel, null)
                 .show();
     }
 

@@ -1,0 +1,369 @@
+<resources>
+    <string name="app_name" translatable="false">Frenapps</string>
+
+    <string name="tile_kill_app_label">Kill App</string>
+    <string name="tile_kill_app_subtitle">Kills foreground app</string>
+    <string name="tile_background_kill_label">Kill Background Apps</string>
+    <string name="tile_background_kill_subtitle">Runs configured auto-kill</string>
+    <string name="shortcut_kill_short_label">Kill App</string>
+    <string name="shortcut_kill_long_label">Kill Foreground App</string>
+    <string name="replacement_notice_title">Appzuku is now Frenapps</string>
+    <string name="replacement_notice_message">The original Appzuku was left unmaintained in March 2026. This fork, Frenapps, keeps it free and open source under GPLv3 and focuses on stability: reproducible release builds, safer shell commands, boot auto-start that actually runs on Android 14+, and crash fixes. It also ships a full Latin-American Spanish translation and a step-by-step first-run intro. All credit for the original work goes to northmendo.
+
+You can read the source or report an issue at any time from Settings.
+
+</string>
+    <string name="replacement_notice_action_view">Open the fork</string>
+    <string name="replacement_notice_action_dismiss">Not now</string>
+    <string name="settings_replacement_notice_title">This build is the Frenapps fork</string>
+    <string name="settings_replacement_notice_subtitle">Source code and issue tracker on GitHub</string>
+    <string name="url_open_failed">Unable to open link</string>
+
+    <string name="settings_section_support">Support</string>
+    <string name="settings_donate_title">Donate</string>
+    <string name="settings_donate_subtitle">Support development</string>
+
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+
+    <string name="settings_section_automation">Automation</string>
+    <string name="settings_background_service_title">Background Service</string>
+    <string name="settings_background_service_subtitle">Required for timed and screen-off kills</string>
+    <string name="settings_periodic_kill_title">Periodic Auto-Kill</string>
+    <string name="settings_periodic_kill_subtitle">Run kills on a timer</string>
+    <string name="settings_check_frequency_title">Check Frequency</string>
+    <string name="settings_check_frequency_default">Every 18 seconds</string>
+    <string name="settings_screen_lock_title">Kill on Screen Lock</string>
+    <string name="settings_screen_lock_subtitle">Run kill when you lock the device</string>
+    <string name="settings_ram_threshold_title">Smart RAM Threshold</string>
+    <string name="settings_ram_threshold_default">Only kill when RAM is above 80%%</string>
+    <string name="settings_ram_threshold_summary">Only kill when RAM is above %1$d%%</string>
+
+    <string name="settings_section_kill_rules">Kill Rules</string>
+    <string name="settings_mode_title">Mode</string>
+    <string name="settings_mode_whitelist">Whitelist</string>
+    <string name="settings_mode_blacklist">Blacklist</string>
+    <string name="settings_whitelist_title">Whitelist</string>
+    <string name="settings_whitelist_subtitle">Apps never killed</string>
+    <string name="settings_blacklist_title">Blacklist</string>
+    <string name="settings_blacklist_subtitle">Apps killed in Blacklist mode</string>
+    <string name="settings_show_system_apps_title">Show System Apps</string>
+    <string name="settings_show_system_apps_subtitle">Include system apps in lists</string>
+    <string name="settings_show_persistent_apps_title">Show Persistent Apps</string>
+    <string name="settings_show_persistent_apps_subtitle">Include OS persistent apps</string>
+
+    <string name="settings_section_advanced_tools">Advanced Tools</string>
+    <string name="settings_background_restriction_title">Background Restriction</string>
+    <string name="settings_background_restriction_subtitle">Keep selected apps asleep</string>
+    <string name="settings_reapply_restrictions_title">Reapply Saved Restrictions</string>
+    <string name="settings_reapply_restrictions_subtitle">Restore saved restrictions</string>
+    <string name="settings_clear_cache_title">Clear App Caches</string>
+    <string name="settings_clear_cache_subtitle">Clear app caches now</string>
+    <string name="settings_hidden_apps_title">Hidden Apps</string>
+    <string name="settings_hidden_apps_subtitle">Hide apps from the main list</string>
+    <string name="settings_backup_restore_title">Backup &amp; Restore</string>
+    <string name="settings_backup_restore_subtitle">Save or restore app lists</string>
+
+    <string name="settings_section_stats_history">Stats &amp; History</string>
+    <string name="settings_kill_history_title">Kill History</string>
+    <string name="settings_kill_history_subtitle">Kills, relaunches, and recovered RAM</string>
+    <string name="settings_top_offenders_title">Top Offenders</string>
+    <string name="settings_top_offenders_subtitle">Apps with the most kills or relaunches</string>
+    <string name="settings_restriction_log_title">Restriction Log</string>
+    <string name="settings_restriction_log_subtitle">Recent restriction results and errors</string>
+
+    <string name="settings_section_information">Information</string>
+    <string name="settings_help_title">Help</string>
+    <string name="settings_help_subtitle">How Frenapps works</string>
+    <string name="settings_source_code_title">Source Code</string>
+    <string name="settings_source_code_subtitle">Open the GitHub repository</string>
+    <string name="settings_check_updates_title">Check for Updates</string>
+    <string name="settings_check_updates_subtitle">Open the latest GitHub releases</string>
+    <string name="settings_version_label">Frenapps v%1$s</string>
+
+    <string name="settings_interval_fallback">Every %1$d seconds</string>
+
+    <string name="permiso_falta_titulo">Permission missing</string>
+    <string name="permiso_falta_detalle">Frenapps needs Root or Shizuku to see and kill processes. Without permission, the running-apps list will always be empty.</string>
+    <string name="permiso_falta_boton">Ask for permission</string>
+    <string name="permiso_falta_ayuda">Open help</string>
+
+    <!-- Common -->
+    <string name="action_cancel">Cancel</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_i_understand">I Understand</string>
+    <string name="action_yes_apply">Yes, Apply</string>
+    <string name="action_reapply">Re-apply</string>
+    <string name="action_remove_from_list">Remove from List</string>
+    <string name="action_add_to_frenapps">Add to Frenapps</string>
+    <string name="action_remove_restriction">Remove Restriction</string>
+    <string name="loading">Loading…</string>
+    <string name="search_hint">Search apps…</string>
+
+    <!-- Main menu -->
+    <string name="menu_search">Search</string>
+    <string name="menu_sort">Sort</string>
+    <string name="menu_select_all">Select all</string>
+    <string name="menu_unselect_all">Unselect all</string>
+    <string name="menu_settings">Settings</string>
+    <string name="desc_select_all">Select all apps</string>
+    <string name="desc_unselect_all">Unselect all apps</string>
+
+    <!-- App options menu -->
+    <string name="opt_app_info">App Info</string>
+    <string name="opt_uninstall">Uninstall</string>
+    <string name="opt_add_to_list">Add to List…</string>
+    <string name="opt_whitelist">Whitelist</string>
+    <string name="opt_blacklist">Blacklist</string>
+    <string name="opt_hidden">Hidden</string>
+    <string name="opt_background_restriction">Background Restriction</string>
+    <string name="opt_restriction_out_of_sync">Background Restriction (Out of Sync)</string>
+    <string name="opt_restriction_external">Background Restriction (External)</string>
+    <string name="opt_restriction_saved">Background Restriction (Saved)</string>
+    <string name="desc_more_options">More options</string>
+    <string name="desc_app_icon">App Icon</string>
+
+    <!-- Main screen -->
+    <string name="running_apps_count">Running apps: %1$d</string>
+    <string name="ram_usage">RAM Usage: %1$dMB / %2$dMB</string>
+    <string name="ram_usage_unknown">RAM Usage: --</string>
+    <string name="toast_app_info_failed">Unable to open app info</string>
+    <string name="uninstall_dialog_title">Uninstall %1$s</string>
+    <string name="uninstall_dialog_body">This will use shell commands (Shizuku/Root) to uninstall the app.\n\nNote: System apps may not be uninstallable on all devices.</string>
+    <string name="toast_added_whitelist">Added to whitelist (never kill)</string>
+    <string name="toast_removed_whitelist">Removed from whitelist</string>
+    <string name="toast_added_blacklist">Added to blacklist</string>
+    <string name="toast_removed_blacklist">Removed from blacklist</string>
+    <string name="toast_app_hidden">App hidden</string>
+    <string name="toast_app_unhidden">App is visible again</string>
+    <string name="sysapp_restriction_title">System App Warning</string>
+    <string name="sysapp_restriction_body">Restricting background activity for a system app can break notifications, widgets, VPNs, keyboards, accessibility features, or device stability.\n\nOnly continue if you understand the risk.</string>
+    <string name="desync_restriction_title">Background Restriction Out of Sync</string>
+    <string name="desync_restriction_body">%1$s is still on Frenapps\' saved restriction list, but Android is not currently restricting it.\n\nRe-apply the restriction or remove it from Frenapps\' list?</string>
+    <string name="external_restriction_title">Restricted Outside Frenapps</string>
+    <string name="external_restriction_body">%1$s is currently restricted by Android, but it is not on Frenapps\' saved list.\n\nAdd it to Frenapps or remove the current restriction?</string>
+
+    <!-- Sort dialog -->
+    <string name="sort_by">Sort apps by</string>
+    <string name="sort_default">Default (System → Name)</string>
+    <string name="sort_ram_desc">Most RAM → Least RAM</string>
+    <string name="sort_ram_asc">Least RAM → Most RAM</string>
+    <string name="sort_name_asc">Name A → Z</string>
+    <string name="sort_name_desc">Name Z → A</string>
+
+    <!-- Filter dialog -->
+    <string name="filter_system">System</string>
+    <string name="filter_user">User</string>
+    <string name="filter_running">Running</string>
+    <string name="filter_clear">Clear</string>
+    <string name="no_top_offenders">No offenders for this period</string>
+
+    <!-- Widget -->
+    <string name="widget_ram">RAM: --</string>
+    <string name="widget_ram_value">RAM: %1$dMB / %2$dMB</string>
+    <string name="widget_clean">Clean</string>
+
+    <!-- Kills and errors -->
+    <string name="notif_autokill_title">Auto-Kill Executed</string>
+    <string name="notif_autokill_body">Stopped %1$d background apps</string>
+    <string name="notif_channel_actions">Frenapps Actions</string>
+    <string name="notif_channel_service">Frenapps Foreground Service</string>
+    <string name="service_notif_title">Frenapps Service</string>
+    <string name="service_notif_body">Monitoring background apps…</string>
+    <string name="toast_permission_required">Shizuku or Root permission required</string>
+    <string name="toast_killed">Killed: %1$s</string>
+    <string name="toast_kill_failed">Failed to kill: %1$s</string>
+    <string name="toast_no_foreground_app">No killable foreground app found</string>
+    <string name="toast_bg_kill_finished">Configured background kill finished</string>
+    <string name="toast_running_apps_failed">Failed to get running apps output</string>
+    <string name="toast_running_apps_error">Error getting running apps: %1$s</string>
+    <string name="toast_restriction_needs_android11">Background restriction requires Android 11+</string>
+    <string name="toast_kill_selected_failed">Failed to kill selected apps</string>
+    <string name="toast_kill_one_failed">Failed to stop %1$s</string>
+    <string name="toast_uninstall_sent">Uninstall command sent for %1$s</string>
+    <string name="toast_uninstall_failed">Failed to uninstall %1$s</string>
+    <string name="toast_caches_cleared">Caches cleared</string>
+    <string name="toast_caches_failed">Failed to clear caches</string>
+
+    <!-- Settings -->
+    <string name="warn_system_apps_title">⚠️ Warning: System Apps</string>
+    <string name="warn_system_apps_body">System apps are critical for device stability. Blocking or killing system apps (like \'Security\' on Xiaomi devices) may cause crashes, boot loops, or device malfunction.</string>
+    <string name="toast_no_saved_restrictions">No saved background restrictions to re-apply</string>
+    <string name="dialog_kill_mode_title">Select Kill Mode</string>
+    <string name="dialog_blacklist_title">Blacklisted apps (Target to kill)</string>
+    <string name="dialog_whitelist_title">Whitelisted apps (never kill)</string>
+    <string name="dialog_theme_title">Select App Theme</string>
+    <string name="dialog_interval_title">Kill Interval</string>
+    <string name="dialog_hidden_title">Select the apps you want to hide</string>
+    <string name="dialog_restriction_title">Background Restriction</string>
+    <string name="dialog_system_selected_title">System Apps Selected</string>
+    <string name="dialog_system_selected_body">You have selected %1$d system app(s) for background restriction.\n\nThis can break notifications, widgets, VPNs, keyboards, accessibility services, companion devices, or device stability.\n\nDo you want to continue?</string>
+    <string name="dialog_restriction_warning_title">Background Restriction Warning</string>
+    <string name="dialog_restriction_warning_body">Restricted apps may stop syncing, miss notifications, stop updating widgets, or fail to perform background tasks until you open them again.\n\nDo you want to continue?</string>
+    <string name="dialog_ram_title">Select RAM Threshold</string>
+    <string name="dialog_backup_title">Backup &amp; Restore</string>
+    <string name="toast_backup_data_failed">Failed to create backup data</string>
+    <string name="toast_backup_saved">Backup saved successfully</string>
+    <string name="toast_backup_write_failed">Failed to write to file</string>
+    <string name="toast_export_failed">Export failed: %1$s</string>
+    <string name="toast_restore_ok">Restore successful</string>
+    <string name="toast_restore_bad">Restore failed: Invalid data</string>
+    <string name="toast_import_failed">Import failed: %1$s</string>
+    <string name="toast_restriction_log_cleared">Restriction log cleared</string>
+
+    <!-- Help -->
+    <string name="help_title">Appzuku Help</string>
+    <string name="help_body" formatted="false"><![CDATA[
+<h2>Getting Started</h2>
+<p>Frenapps helps you save battery and reduce RAM usage by stopping background apps.</p>
+
+<h3>1. Permissions</h3>
+<p>You need either <b>Root</b> access or <b>Shizuku</b>. If you don\'t have Root, install Shizuku from the Play Store and follow its instructions.</p>
+
+<h3>2. Background Service</h3>
+<p>The <b>Background Service</b> toggle must be ON for any automation features to work. Once enabled, you can use any combination of the following:</p>
+
+<h3>3. Automation Options (Use Separately or Together)</h3>
+<p>Each of these features works <b>independently</b>. Enable only what you need:</p>
+
+<p><b>Periodic Auto-Kill</b><br/>
+Automatically kills apps on a timer (Check Frequency). Use this for continuous background cleanup.</p>
+
+<p><b>Kill on Screen Lock</b><br/>
+Kills apps when you lock your device. Great for cleaning up when you\'re done using your phone.</p>
+
+<p><b>Smart RAM Threshold</b><br/>
+Only kills apps if RAM usage exceeds your threshold (75%-100%). Applies to both Periodic Auto-Kill and Kill on Screen Lock. Prevents unnecessary kills when your device has plenty of free memory.</p>
+
+<h3>4. Example Configurations</h3>
+<p><b>Screen Lock Only:</b> Enable Background Service + Kill on Screen Lock. Leave Periodic Auto-Kill OFF.</p>
+<p><b>Timer Only:</b> Enable Background Service + Periodic Auto-Kill. Set your preferred frequency.</p>
+<p><b>Smart Kill:</b> Enable Background Service + Kill on Screen Lock + Smart RAM Threshold. Apps only killed when RAM is high.</p>
+
+<h3>5. Manual Kill (No Service Needed)</h3>
+<p>These features work without the background service:</p>
+<ul>
+<li><b>Main Screen:</b> Select apps and tap the kill button</li>
+<li><b>Quick Tile - Kill App:</b> Tap to kill the current foreground app</li>
+<li><b>Quick Tile - Kill Background Apps:</b> Tap to run your configured whitelist/blacklist background kill</li>
+<li><b>Widget:</b> One-tap kill from your home screen</li>
+</ul>
+
+<h3>6. Kill Modes</h3>
+<p><b>Whitelist Mode (Default):</b> Kills all apps EXCEPT those you whitelist.</p>
+<p><b>Blacklist Mode:</b> Kills ONLY the apps you select in the Blacklist.</p>
+
+<h3>7. Kill History</h3>
+<p>View statistics on which apps were killed and how often they relaunch. Apps that frequently restart (\'greedy apps\') can be added to Background Restriction so Android keeps them asleep as aggressively as possible.</p>
+
+<h3>⚠️ 8. System Apps Safety Warning</h3>
+<p><b>IMPORTANT:</b> System apps are critical for device stability and functionality. Examples include:</p>
+<ul>
+<li>Security apps (e.g., \'Security\' on Xiaomi/MIUI devices)</li>
+<li>Android System UI (com.android.systemui)</li>
+<li>Phone services and system frameworks</li>
+</ul>
+<p><b>Risks of Blocking System Apps:</b><br/>Blocking or killing system apps may cause crashes, boot loops, loss of functionality, broken widgets, delayed notifications, or device malfunction. Only modify system apps if you fully understand the consequences.</p>
+<p>The app will warn you when selecting system apps in filters or Background Restriction.</p>
+]]></string>
+
+    <string-array name="settings_theme_labels">
+        <item>@string/settings_theme_system</item>
+        <item>@string/settings_theme_light</item>
+        <item>@string/settings_theme_dark</item>
+    </string-array>
+
+    <string-array name="settings_kill_interval_labels">
+        <item>Every 10 seconds</item>
+        <item>Every 18 seconds</item>
+        <item>Every 30 seconds</item>
+        <item>Every 1 minute</item>
+        <item>Every 5 minutes</item>
+    </string-array>
+
+    <string-array name="settings_ram_threshold_labels">
+        <item>75%</item>
+        <item>80%</item>
+        <item>85%</item>
+        <item>90%</item>
+        <item>95%</item>
+        <item>100%</item>
+    </string-array>
+
+    <!-- Stats and history -->
+    <string name="filter_last_12h">Last 12 hours</string>
+    <string name="filter_last_24h">Last 24 hours</string>
+    <string name="filter_last_7d">Last 7 days</string>
+    <string name="filter_all_time">All time</string>
+    <string name="mode_whitelist_desc">Whitelist Mode (Kill all except…)</string>
+    <string name="mode_blacklist_desc">Blacklist Mode (Kill only…)</string>
+    <string name="action_close">Close</string>
+    <string name="restrict_greedy">Restrict Greedy Apps in Background</string>
+    <string name="hist_empty_12h">No activity in the last 12 hours.</string>
+    <string name="hist_summary_12h">Last 12 hours: %1$d apps | Kills %2$d | Relaunches %3$d | Recovered %4$s</string>
+    <string name="offenders_summary">%1$s: %2$d apps | Kills %3$d | Relaunches %4$d | Recovered %5$s</string>
+    <string name="top_offenders_subtitle">Rank apps by kills, relaunches, and RAM recovered.</string>
+    <string name="restriction_log_subtitle">Recent background restriction results. Stored in cache and capped automatically.</string>
+    <string name="restriction_log_summary">Recent events: %1$d entries | Cache-backed and capped at 200</string>
+    <string name="restriction_log_empty">No background restriction events logged yet.\n\nEntries are stored temporarily in cache and trimmed automatically.</string>
+    <string name="hist_killed_x">Killed %1$d times</string>
+    <string name="hist_relaunched_x">Relaunched %1$d times</string>
+    <string name="hist_last_at"> (last %1$s)</string>
+    <string name="hist_recovered">Recovered %1$s</string>
+    <string name="restore_needs_permission">Restore saved settings. Grant Shizuku/Root to reapply background restrictions.</string>
+    <string name="log_detail_android11">Android 11+ required</string>
+    <string name="log_detail_no_permission">No Root or Shizuku permission available</string>
+    <string name="log_action_apply">Apply restriction</string>
+    <string name="log_action_remove">Remove restriction</string>
+    <string name="log_action_verify">Verify</string>
+    <string name="log_action_event">Event</string>
+    <string name="action_save">Save</string>
+    <string name="action_clear">Clear</string>
+    <string name="restr_state_saved">Saved in Frenapps</string>
+    <string name="restr_state_external">Restricted outside Frenapps</string>
+    <string name="restr_state_saved_inactive">Saved in Frenapps, not active</string>
+    <string name="offender_row">Killed: %1$dx | Relaunched: %2$dx | Recovered %3$s</string>
+    <string name="score_badge">Score %1$s</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title">How to use Frenapps</string>
+    <string name="onboarding_start">Get started</string>
+    <string name="onboarding_body" formatted="false"><![CDATA[
+<h2>Welcome</h2>
+<p>Frenapps closes apps that keep using RAM and battery in the background. These 6 steps make it work for you.</p>
+
+<h3>1. Grant permission (required)</h3>
+<p>Seeing and killing processes needs <b>Root</b> or <b>Shizuku</b>. Without permission the list stays empty and an orange notice appears on top.<br/>
+• With Root: accept the Superuser prompt when the app opens.<br/>
+• Without Root: install <b>Shizuku</b>, start its service (on Android 11+ you can use <i>Pair device / wireless debugging</i> from system Settings), then come back to Frenapps and tap <b>Ask for permission</b>.<br/>
+Starting Shizuku from a computer with <i>adb pair / adb connect</i> also works.</p>
+
+<h3>2. Running apps list</h3>
+<p>The main screen shows the apps that are running and how much RAM they use. Tap an app to select it and press the <b>red button</b> to close it. Pull down to scan again. Tap an app&#39;s <b>three-dot</b> menu for more options (info, uninstall, hide).</p>
+
+<h3>3. Whitelist and blacklist</h3>
+<p><b>Whitelist (default mode):</b> closes <i>everything</i> except the apps you add. This is the safe option: put WhatsApp, clock, music, banking, etc. here.<br/>
+<b>Blacklist:</b> closes <i>only</i> the apps you choose. Change it in Settings → Mode.</p>
+
+<h3>4. Automation</h3>
+<p>In Settings turn on <b>Background Service</b>; without it nothing runs automatically. Then choose:<br/>
+• <b>Periodic Auto-Kill</b> with the frequency you want.<br/>
+• <b>Kill on Screen Lock</b>.<br/>
+• <b>Smart RAM Threshold</b>: only closes apps when RAM goes above the percentage you set.</p>
+
+<h3>5. Kill without opening the app</h3>
+<p>The Quick Settings panel has two <b>tiles</b>: one closes the app you are using, the other runs your configured background kill. There is also a <b>widget</b> with a clean button and an app <b>shortcut</b>.</p>
+
+<h3>6. Be careful</h3>
+<p>Killing or restricting <b>system apps</b> can break notifications, the keyboard, or the whole phone. Frenapps warns you when you select one. If something stops working, reboot and remove that app from the blacklist.</p>
+
+<p>You can read this again and the full help from <b>Settings → Help</b>.</p>
+]]></string>
+</resources>
+
+
+
+

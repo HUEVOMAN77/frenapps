@@ -61,10 +61,10 @@ public class RamMonitor {
                         if (ramInfo != null && ramInfo.totalMb > 0) {
                             ramUsageBar.setMax((int) ramInfo.totalMb);
                             ramUsageBar.setProgress((int) ramInfo.usedMb);
-                            ramUsageText.setText(String.format("RAM Usage: %dMB / %dMB",
+                            ramUsageText.setText(ramUsageText.getContext().getString(R.string.ram_usage,
                                     ramInfo.usedMb, ramInfo.totalMb));
                         } else {
-                            ramUsageText.setText("RAM Usage: --");
+                            ramUsageText.setText(R.string.ram_usage_unknown);
                         }
                     });
                 });

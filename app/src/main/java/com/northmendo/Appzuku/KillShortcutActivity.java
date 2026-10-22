@@ -33,7 +33,7 @@ public class KillShortcutActivity extends Activity {
         shellManager = new ShellManager(this, handler, executor);
 
         if (!shellManager.hasAnyShellPermission()) {
-            Toast.makeText(getApplicationContext(), "Shizuku or Root permission required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.toast_permission_required, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -45,17 +45,17 @@ public class KillShortcutActivity extends Activity {
                 shellManager.runShellCommand("am force-stop " + pkg,
                         () -> {
                             logKilledPackage(pkg);
-                            Toast.makeText(getApplicationContext(), "Killed: " + pkg, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.toast_killed, pkg), Toast.LENGTH_SHORT).show();
                             finish();
                         },
                         () -> {
-                            Toast.makeText(getApplicationContext(), "Failed to kill: " + pkg, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.toast_kill_failed, pkg), Toast.LENGTH_SHORT).show();
                             finish();
                         }
                 );
             } else {
                 handler.post(() -> {
-                    Toast.makeText(getApplicationContext(), "No killable foreground app found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.toast_no_foreground_app, Toast.LENGTH_SHORT).show();
                     finish();
                 });
             }

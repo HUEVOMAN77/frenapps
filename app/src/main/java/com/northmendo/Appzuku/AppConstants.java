@@ -8,6 +8,9 @@ public final class AppConstants {
                 // Prevent instantiation
         }
 
+        // This fork
+        public static final String FORK_URL = "https://github.com/HUEVOMAN77/frenapps";
+
         // Kill Intervals (milliseconds)
         public static final int DEFAULT_KILL_INTERVAL_MS = 18000; // 18 seconds
         public static final int[] KILL_INTERVALS_MS = { 10000, 18000, 30000, 60000, 300000 };

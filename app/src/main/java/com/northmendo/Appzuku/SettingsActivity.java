@@ -57,7 +57,7 @@ import static com.northmendo.Appzuku.AppConstants.*;
 public class SettingsActivity extends BaseActivity {
     private static final String TAG = "SettingsActivity";
     private static final int TOP_OFFENDERS_LIMIT = 50;
-    private static final String PROCESS_WARDEN_URL = "https://github.com/northmendo/ProcessWarden";
+    private static final String FORK_URL = AppConstants.FORK_URL;
     private static final String[] TOP_OFFENDER_FILTER_LABELS = {
             "Last 12 hours",
             "Last 24 hours",
@@ -162,7 +162,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void setupListeners() {
-        binding.layoutReplacementNotice.setOnClickListener(v -> openUrl(PROCESS_WARDEN_URL));
+        binding.layoutReplacementNotice.setOnClickListener(v -> openUrl(FORK_URL));
 
         // Theme selector
         binding.layoutTheme.setOnClickListener(v -> showThemeDialog());

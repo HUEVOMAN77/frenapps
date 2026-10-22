@@ -42,8 +42,8 @@ import static com.northmendo.Appzuku.AppConstants.*;
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     private static final int NOTIFICATION_PERMISSION_CODE = 1;
-    private static final String PROCESS_WARDEN_URL = "https://github.com/northmendo/ProcessWarden";
-    private static final String REPLACEMENT_NOTICE_VERSION = "1.3.16";
+    private static final String FORK_URL = AppConstants.FORK_URL;
+    private static final String REPLACEMENT_NOTICE_VERSION = "1.3.17-fork.1";
 
     private ActivityMainBinding binding;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -253,7 +253,7 @@ public class MainActivity extends BaseActivity {
                 .setTitle(R.string.replacement_notice_title)
                 .setMessage(R.string.replacement_notice_message)
                 .setPositiveButton(R.string.replacement_notice_action_view, (dialog, which) -> {
-                    openUrl(PROCESS_WARDEN_URL);
+                    openUrl(FORK_URL);
                 })
                 .setNegativeButton(R.string.replacement_notice_action_dismiss, null)
                 .show();

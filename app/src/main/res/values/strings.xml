@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Appzuku</string>
+    <string name="app_name" translatable="false">Frenapps</string>
 
     <string name="tile_kill_app_label">Kill App</string>
     <string name="tile_kill_app_subtitle">Kills foreground app</string>
@@ -7,12 +7,16 @@
     <string name="tile_background_kill_subtitle">Runs configured auto-kill</string>
     <string name="shortcut_kill_short_label">Kill App</string>
     <string name="shortcut_kill_long_label">Kill Foreground App</string>
-    <string name="replacement_notice_title">Thank You for Using Appzuku</string>
-    <string name="replacement_notice_message">Thank you for using Appzuku. This app will remain available, but future development is moving to Process Warden, a reimagined replacement. If Appzuku has been useful to you, I\'d appreciate your support there. You can always find this link again later in Settings.</string>
-    <string name="replacement_notice_action_view">View Process Warden</string>
+    <string name="replacement_notice_title">Appzuku is now Frenapps</string>
+    <string name="replacement_notice_message">The original Appzuku was left unmaintained in March 2026. This fork, Frenapps, keeps it free and open source under GPLv3 and focuses on stability: reproducible release builds, safer shell commands, boot auto-start that actually runs on Android 14+, and crash fixes. No new features in this pass. All credit for the original work goes to northmendo.
+
+You can read the source or report an issue at any time from Settings.
+
+</string>
+    <string name="replacement_notice_action_view">Open the fork</string>
     <string name="replacement_notice_action_dismiss">Not now</string>
-    <string name="settings_replacement_notice_title">Future development has moved to Process Warden</string>
-    <string name="settings_replacement_notice_subtitle">Open the new project on GitHub</string>
+    <string name="settings_replacement_notice_title">This build is the Frenapps fork</string>
+    <string name="settings_replacement_notice_subtitle">Source code and issue tracker on GitHub</string>
     <string name="url_open_failed">Unable to open link</string>
 
     <string name="settings_section_support">Support</string>
@@ -73,12 +77,12 @@
 
     <string name="settings_section_information">Information</string>
     <string name="settings_help_title">Help</string>
-    <string name="settings_help_subtitle">How Appzuku works</string>
+    <string name="settings_help_subtitle">How Frenapps works</string>
     <string name="settings_source_code_title">Source Code</string>
     <string name="settings_source_code_subtitle">Open the GitHub repository</string>
     <string name="settings_check_updates_title">Check for Updates</string>
     <string name="settings_check_updates_subtitle">Open the latest GitHub releases</string>
-    <string name="settings_version_label">Appzuku v%1$s</string>
+    <string name="settings_version_label">Frenapps v%1$s</string>
 
     <string name="settings_interval_fallback">Every %1$d seconds</string>
 

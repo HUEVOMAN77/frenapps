@@ -1,4 +1,6 @@
-# Appzuku
+# Frenapps
+Fork libre y mantenido de **Appzuku** ("Process Warden"), la app que frena procesos en segundo plano con Root o Shizuku.
+
 ![Logo](https://github.com/northmendo/Appzuku/blob/f58b2f820655d7ca59ee699159965b110e23f1d5/docs/images/logo.png)
 <p align="center">
   <img src="https://img.shields.io/github/downloads/northmendo/Appzuku/total?label=Downloads"/>
@@ -8,16 +10,25 @@
 
 
 > [!IMPORTANT]
-> **Appzuku has been officially succeeded by [Process Warden](https://github.com/northmendo/ProcessWarden).**
-> 
-> Process Warden is a modern rewrite designed to be the definitive solution for Android process management, resolving previous bugs and introducing a more refined user experience.
-> 
-> * **Premium Experience:** Process Warden is a paid application with a **3-day free trial** for all new users.
-> * **Legacy Support:** **Appzuku will remain free and available on GitHub, but all future development and feature updates will be exclusive to Process Warden.**
-> * **Secure Payments:** All transactions are handled securely via [Polar](https://polar.sh).
-> * **Privacy First:** Your email is only used for essential purchase support and is never shared or used for marketing.
-> 
-> Please consider switching to **[Process Warden](https://github.com/northmendo/ProcessWarden)** to support continued development and enjoy the latest improvements!
+> **Este es un fork mantenido de [northmendo/Appzuku](https://github.com/northmendo/Appzuku), bajo GPL-3.0.**
+>
+> El autor original dejó Appzuku en marzo de 2026 para enfocar el desarrollo en
+> [Process Warden](https://github.com/northmendo/ProcessWarden), que es una app paga y sin
+> código fuente publicado. Acá el código sigue libre: se conserva el historial completo de
+> commits y todo el crédito del autor original.
+>
+> Este fork no está afiliado ni avalado por northmendo, y no usa el nombre "Process Warden".
+> El trabajo de esta etapa es **estabilidad**: que el build de release sea reproducible,
+> que los comandos de shell no reciban datos sin validar, que el arranque automático
+> realmente dispare en Android 14+ y que se tapen los crashes conocidos. No se agregan
+> funciones nuevas.
+
+---
+
+> [!NOTE]
+> **Aviso del repositorio original (2026):** Appzuku fue reemplazado por Process Warden, una
+> aplicación paga con prueba gratuita de 3 días. El desarrollo futuro del proyecto original
+> es exclusivo de Process Warden. Appzuku queda libre en GitHub, y este fork lo mantiene.
 
 
 ## What is Appzuku?

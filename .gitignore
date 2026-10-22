@@ -40,7 +40,6 @@ release/
 
 # Lint
 /lint-baseline.xml
-app/lint-baseline.xml
 lint/generated/
 
 # Backups
@@ -73,3 +72,6 @@ captures/
 # Log files
 *.log
 .ralph-state/
+
+# La clave de release del fork no se publica. Si falta, el build usa la de debug.
+keystore/

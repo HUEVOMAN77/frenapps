@@ -2,9 +2,28 @@ plugins {
     id 'com.android.application'
 }
 
+// La firma de release vive fuera del repo (GPL y claves personales). Si no esta el
+// archivo, el build sale igual pero firmado con la clave de debug.
+def forkKeystoreProps = new Properties()
+def forkKeystorePropsFile = rootProject.file('keystore/frenapps.properties')
+if (forkKeystorePropsFile.exists()) {
+    forkKeystoreProps.load(new FileInputStream(forkKeystorePropsFile))
+}
+
 android {
     namespace 'com.northmendo.Appzuku'
     compileSdk 36
+
+    signingConfigs {
+        if (forkKeystorePropsFile.exists()) {
+            fork {
+                storeFile rootProject.file(forkKeystoreProps.getProperty('storeFile'))
+                storePassword forkKeystoreProps.getProperty('storePassword')
+                keyAlias forkKeystoreProps.getProperty('keyAlias')
+                keyPassword forkKeystoreProps.getProperty('keyPassword')
+            }
+        }
+    }
 
     defaultConfig {
         applicationId "com.northmendo.Appzuku"
@@ -31,6 +50,10 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+            signingConfig forkKeystorePropsFile.exists() ? signingConfigs.fork
+                    : signingConfigs.debug
         }
     }
     
